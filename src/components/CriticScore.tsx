@@ -6,7 +6,7 @@ interface Props {
 
 const CriticScore = ({score}: Props ) => {
 
-    let colour = score > 75 ? 'green' : score > 60 ? 'yellow' : 'red' ;
+    let color = score > 85 ? 'green' : score > 60 ? 'yellow' : 'red' ;
 
   return (
     <Badge fontSize='14px' colorScheme={color} borderRadius='5px'>{score}</Badge>
