@@ -2,8 +2,13 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
+import { useState } from "react";
+import { Genre } from "./hooks/useGenres";
 
 function App() {
+
+  const [selectGenre, setSelectedGenre] = useState<Genre | null>(null);
+  
   //templateAreas is to define layout of our page
   //each string represents a row
   //and within string space shows start of new coloumn
@@ -23,11 +28,11 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX={5} >
-          <GenreList />
+          <GenreList onSelectGenre={(genre) => setSelectedGenre(genre)}/>
         </GridItem>
       </Show>
       <GridItem area="main" >
-        <GameGrid />
+        <GameGrid selectedGenre={selectGenre}/>
       </GridItem>
     </Grid>
   );
