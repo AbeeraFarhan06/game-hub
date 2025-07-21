@@ -3,7 +3,9 @@ import Trailer from '../entities/Trailer';
 import APIClient from '../services/api-client';
 
 const useTrailers = (gameId: number) => {
-  const apiClient = new APIClient<Trailer>(
+
+  const apiClient = new APIClient<Trailer>
+  (
     `/games/${gameId}/movies`
   );
 
