@@ -1,33 +1,55 @@
-import { Button, Heading, HStack, Image, List, ListItem, Spinner, Text } from "@chakra-ui/react";
-import useGenres, { Genre } from "../hooks/useGenres";
+import {
+  Button,
+  Heading,
+  HStack,
+  Image,
+  List,
+  ListItem,
+  Spinner
+} from "@chakra-ui/react";
+import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
+import useGameQueryStore from "../store";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenreId: number | undefined;
-}
+const GenreList = () => {
+  const { data, isLoading, error } = useGenres();
+  const selectedGenreId = useGameQueryStore( selector => selector.gameQuery.genreId)
+  const setSelectedGenreId = useGameQueryStore( selector => selector.setGenreId)
 
-const GenreList = ({onSelectGenre, selectedGenreId}: Props ) => {
-
-  const {data, isLoading, error} = useGenres();
-
-  if (error) return null; 
-  if (isLoading) return <Spinner />
+  if (error) return null;
+  if (isLoading) return <Spinner />;
 
   return (
     <>
-    <Heading fontSize='2xl' marginBottom={3}>Genres</Heading>
-    <List>
-      {data?.results.map( g => 
-      <ListItem key={g.id} paddingY='5px'>
-        <HStack>
-          <Image boxSize="32px" objectFit='cover' borderRadius={8} src={getCroppedImageUrl(g.image_background)}/>
-          <Button whiteSpace='normal' textAlign='left' fontWeight={g.id == selectedGenreId ? 'bold' : 'normal'} onClick={() => onSelectGenre(g)} fontSize='lg' variant='link'>{g.name}</Button>
-        </HStack>
-      </ListItem>)}
-    </List>
+      <Heading fontSize="2xl" marginBottom={3}>
+        Genres
+      </Heading>
+      <List>
+        {data?.results.map((g) => (
+          <ListItem key={g.id} paddingY="5px">
+            <HStack>
+              <Image
+                boxSize="32px"
+                objectFit="cover"
+                borderRadius={8}
+                src={getCroppedImageUrl(g.image_background)}
+              />
+              <Button
+                whiteSpace="normal"
+                textAlign="left"
+                fontWeight={g.id == selectedGenreId ? "bold" : "normal"}
+                onClick={() => setSelectedGenreId(g.id)}
+                fontSize="lg"
+                variant="link"
+              >
+                {g.name}
+              </Button>
+            </HStack>
+          </ListItem>
+        ))}
+      </List>
     </>
-  )
-}
+  );
+};
 
-export default GenreList
+export default GenreList;
